@@ -81,6 +81,36 @@ public class MapEngine {
     // Ask for name of country from messagecli file
     String insertCountryMessage = MessageCli.INSERT_COUNTRY.getMessage();
     System.out.print(insertCountryMessage);
+    // Read the country name from the user
+    String countryName = Utils.scanner.nextLine();
+    boolean validCountry = false;
+    while (!validCountry) {
+      try {
+        checkInput(countryName);
+        validCountry = true;
+      } catch (MyCoolException e) {
+        countryName = Utils.scanner.nextLine();
+      }
+    }
+  }
+
+  public class MyCoolException extends Exception {
+    public MyCoolException(String message) {
+      super(message);
+    }
+  }
+
+  public void checkInput(String countryName) throws MyCoolException {
+    Country country = findCountryByName(countryName);
+    if (country == null) {
+      String invalidCountryMessage = MessageCli.INVALID_COUNTRY.getMessage(countryName);
+      System.out.println(invalidCountryMessage);
+    } else {
+      String countryInfoMessage =
+          MessageCli.COUNTRY_INFO.getMessage(
+              country.getName(), country.getContinent(), String.valueOf(country.getTax()));
+      System.out.println(countryInfoMessage);
+    }
   }
 
   /** this method is invoked when the user run the command route. */
