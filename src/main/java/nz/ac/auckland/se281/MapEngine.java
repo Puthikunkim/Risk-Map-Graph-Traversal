@@ -18,16 +18,65 @@ public class MapEngine {
   private void loadMap() {
     List<String> countries = Utils.readCountries();
     List<String> adjacencies = Utils.readAdjacencies();
+
+    // Parse Countries and add them to the map.
+    for (String line : countries) {
+      String[] parts = line.split(",");
+      Country country = new Country(parts[0], parts[1], Integer.parseInt(parts[2]));
+      addCountry(country);
+    }
+
+    // Parse adjacencies and add them to the map for each country.
+    for (String line : adjacencies) {
+      String[] parts = line.split(",");
+      String countryName = parts[0]; // the first part is the country name
+      Country country = findCountryByName(countryName); // stores country of interest
+
+      if (country != null) {
+        List<Country> neighbors = adjCountries.get(country); // stores neighbors of the country
+        for (int i = 1;
+            i < parts.length;
+            i++) { // iterate over the rest of the parts which is the neighbors
+          String neighborName = parts[i]; // stores the neighbor name
+          Country neighbor = findCountryByName(neighborName); // stores the neighbor country
+          if (neighbor != null) {
+            neighbors.add(neighbor); // add the neighbor to the neighbors list
+          }
+        }
+      }
+    }
+
+    // print the map
+    printAdjacencies();
+  }
+
+  public void printAdjacencies() {
+    for (Map.Entry<Country, List<Country>> entry : adjCountries.entrySet()) {
+      Country country = entry.getKey();
+      List<Country> neighbors = entry.getValue();
+      System.out.print("Country: " + country.getName() + " | Adjacencies: ");
+      for (Country neighbor : neighbors) {
+        System.out.print(neighbor.getName() + " ");
+      }
+      System.out.println();
+    }
   }
 
   public void addCountry(Country country) {
-    adjCountries.putIfAbsent(
-        country, new ArrayList<>()); // DO I NEED PUTIFABSENT? ##############???????????????????????
+    adjCountries.putIfAbsent(country, new ArrayList<>());
+  }
+
+  public Country findCountryByName(String name) {
+    for (Country country : adjCountries.keySet()) {
+      if (country.getName().equals(name)) {
+        return country;
+      }
+    }
+    return null;
   }
 
   public void addBorder(Country country1, Country country2) {
     adjCountries.get(country1).add(country2);
-    adjCountries.get(country2).add(country1);
   }
 
   /** this method is invoked when the user run the command info-country. */
