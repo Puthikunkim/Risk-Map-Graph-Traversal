@@ -7,7 +7,7 @@ import java.util.Map;
 
 /** This class is the main entry point. */
 public class MapEngine {
-  private Map<Country, List<Country>> adjCountries;
+  public Map<Country, List<Country>> adjCountries;
 
   public MapEngine() {
     this.adjCountries = new HashMap<>();
@@ -45,9 +45,6 @@ public class MapEngine {
         }
       }
     }
-
-    // print the map
-    printAdjacencies();
   }
 
   public void printAdjacencies() {
@@ -81,7 +78,9 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    // add code here
+    // Ask for name of country from messagecli file
+    String insertCountryMessage = MessageCli.INSERT_COUNTRY.getMessage();
+    System.out.print(insertCountryMessage);
   }
 
   /** this method is invoked when the user run the command route. */

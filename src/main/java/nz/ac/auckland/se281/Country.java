@@ -19,6 +19,10 @@ public class Country {
     return continent;
   }
 
+  public int getTax() {
+    return tax;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
