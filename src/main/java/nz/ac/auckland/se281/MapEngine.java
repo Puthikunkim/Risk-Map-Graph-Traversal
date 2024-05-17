@@ -82,21 +82,21 @@ public class MapEngine {
     String insertCountryMessage = MessageCli.INSERT_COUNTRY.getMessage();
     System.out.print(insertCountryMessage);
     // Read the country name from the user
-    String countryName = Utils.scanner.nextLine();
     boolean validCountry = false;
     while (!validCountry) {
+      String countryName = Utils.scanner.nextLine();
+      countryName = Utils.capitalizeFirstLetterOfEachWord(countryName);
       try {
         checkInput(countryName);
         validCountry = true;
       } catch (MyCoolException e) {
-        countryName = Utils.scanner.nextLine();
       }
     }
   }
 
   public class MyCoolException extends Exception {
-    public MyCoolException(String message) {
-      super(message);
+    public MyCoolException() {
+      super();
     }
   }
 
@@ -105,6 +105,7 @@ public class MapEngine {
     if (country == null) {
       String invalidCountryMessage = MessageCli.INVALID_COUNTRY.getMessage(countryName);
       System.out.println(invalidCountryMessage);
+      throw new MyCoolException();
     } else {
       String countryInfoMessage =
           MessageCli.COUNTRY_INFO.getMessage(
