@@ -90,6 +90,8 @@ public class MapEngine {
         checkInput(countryName);
         validCountry = true;
       } catch (MyCoolException e) {
+        String invalidCountryMessage = MessageCli.INVALID_COUNTRY.getMessage(countryName);
+        System.out.println(invalidCountryMessage);
       }
     }
   }
@@ -103,8 +105,6 @@ public class MapEngine {
   public void checkInput(String countryName) throws MyCoolException {
     Country country = findCountryByName(countryName);
     if (country == null) {
-      String invalidCountryMessage = MessageCli.INVALID_COUNTRY.getMessage(countryName);
-      System.out.println(invalidCountryMessage);
       throw new MyCoolException();
     } else {
       String countryInfoMessage =
