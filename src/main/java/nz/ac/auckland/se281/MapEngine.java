@@ -119,6 +119,21 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
-    
+    String insertSourceMessage = MessageCli.INSERT_SOURCE.getMessage();
+    System.out.print(insertSourceMessage);
+    // Read the country name from the user
+    boolean validSourceCountry = false;
+    Country sourceCountryFound = null;
+    while (!validSourceCountry) {
+      String sourceCountryName = Utils.scanner.nextLine();
+      sourceCountryName = Utils.capitalizeFirstLetterOfEachWord(sourceCountryName);
+      try {
+        sourceCountryFound = checkInput(sourceCountryName);
+        validSourceCountry = true;
+      } catch (MyCoolException e) {
+        String invalidCountryMessage = MessageCli.INVALID_COUNTRY.getMessage(sourceCountryName);
+        System.out.println(invalidCountryMessage);
+      }
+    }
   }
 }
