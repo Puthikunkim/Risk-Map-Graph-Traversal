@@ -158,9 +158,23 @@ public class MapEngine {
         System.out.println(invalidCountryMessage);
       }
     }
+
+    // Find the shortest path between the source and destination countries
     List<Country> path = mapTraversal(sourceCountryFound, destinationCountryFound);
-    for (Country country : path) {
-      System.out.println(country.getName() + " ");
+    if (path.isEmpty()) {
+      System.out.println(MessageCli.NO_CROSSBORDER_TRAVEL.getMessage());
+      return;
+    } else {
+      StringBuilder routeInfoMessage = new StringBuilder("[");
+      for (Country country : path) {
+        routeInfoMessage.append(country.getName()).append(", ");
+      }
+      routeInfoMessage.delete(routeInfoMessage.length() - 2, routeInfoMessage.length());
+      routeInfoMessage.append("]");
+      String finalRouteInfoMessage = routeInfoMessage.toString();
+
+      System.out.println(MessageCli.ROUTE_INFO.getMessage());
+      System.out.println(finalRouteInfoMessage);
     }
   }
 
@@ -197,7 +211,7 @@ public class MapEngine {
       }
     }
 
-    // Return an empty list if no path is found
+    // Return an empty list if no path is found or the source and destination countries are the same
     return new ArrayList<>();
   }
 
