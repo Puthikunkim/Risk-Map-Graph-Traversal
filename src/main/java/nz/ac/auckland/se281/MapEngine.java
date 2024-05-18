@@ -165,16 +165,30 @@ public class MapEngine {
       System.out.println(MessageCli.NO_CROSSBORDER_TRAVEL.getMessage());
       return;
     } else {
+      List<String> continentsVisisted = new LinkedList<>();
+
       StringBuilder routeInfoMessage = new StringBuilder("[");
       for (Country country : path) {
         routeInfoMessage.append(country.getName()).append(", ");
+        if (!continentsVisisted.contains(country.getContinent())) {
+          continentsVisisted.add(country.getContinent());
+        }
       }
       routeInfoMessage.delete(routeInfoMessage.length() - 2, routeInfoMessage.length());
       routeInfoMessage.append("]");
       String finalRouteInfoMessage = routeInfoMessage.toString();
 
-      System.out.println(MessageCli.ROUTE_INFO.getMessage());
-      System.out.println(finalRouteInfoMessage);
+      // String builder for continents in the format [continent1, continent2, ...]
+      StringBuilder continentInfoMessage = new StringBuilder("[");
+      for (String continent : continentsVisisted) {
+        continentInfoMessage.append(continent).append(", ");
+      }
+      continentInfoMessage.delete(continentInfoMessage.length() - 2, continentInfoMessage.length());
+      continentInfoMessage.append("]");
+      String finalContinentInfoMessage = continentInfoMessage.toString();
+
+      System.out.println(MessageCli.ROUTE_INFO.getMessage(finalRouteInfoMessage));
+      System.out.println(MessageCli.CONTINENT_INFO.getMessage(finalContinentInfoMessage));
     }
   }
 
