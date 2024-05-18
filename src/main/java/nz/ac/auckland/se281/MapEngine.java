@@ -2,8 +2,10 @@ package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /** This class is the main entry point. */
 public class MapEngine {
@@ -154,4 +156,26 @@ public class MapEngine {
       }
     }
   }
+  public List<Country> mapTraversal(Country sourceCountry, Country destinationCountry) {
+   List<Country> visited = new LinkedList<>();
+   Queue<Country> queue = new LinkedList<>();
+   queue.add(sourceCountry);
+   visited.add(sourceCountry);
+
+   while (!queue.isEmpty()) {
+       Country nextCountry = queue.poll();
+
+        if (nextCountry.equals(destinationCountry)) {
+            return visited;
+        }
+
+       for (Country adjacentCountry : adjCountries.get(nextCountry)) {
+           if (!visited.contains(adjacentCountry)) {
+               visited.add(adjacentCountry);
+               queue.add(adjacentCountry);
+           }
+       }
+   }
+   return visited;
+ }
 }
