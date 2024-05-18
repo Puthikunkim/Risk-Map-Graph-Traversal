@@ -167,6 +167,7 @@ public class MapEngine {
     } else {
       List<String> continentsVisisted = new LinkedList<>();
 
+      // String builder for the route in the format [country1, country2, ...]
       StringBuilder routeInfoMessage = new StringBuilder("[");
       for (Country country : path) {
         routeInfoMessage.append(country.getName()).append(", ");
@@ -187,8 +188,17 @@ public class MapEngine {
       continentInfoMessage.append("]");
       String finalContinentInfoMessage = continentInfoMessage.toString();
 
+      // Calculate taxes for the route
+      int taxes = 0;
+      for (int i = 1; i < path.size(); i++) {
+        Country currentCountry = path.get(i);
+        taxes += currentCountry.getTax();
+      }
+
+      // Print the route, continents, and taxes
       System.out.println(MessageCli.ROUTE_INFO.getMessage(finalRouteInfoMessage));
       System.out.println(MessageCli.CONTINENT_INFO.getMessage(finalContinentInfoMessage));
+      System.out.println(MessageCli.TAX_INFO.getMessage(String.valueOf(taxes)));
     }
   }
 
