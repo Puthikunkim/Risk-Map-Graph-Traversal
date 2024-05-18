@@ -208,7 +208,10 @@ public class MapEngine {
     Queue<Country> queue = new LinkedList<>(); // Queue for BFS
     Map<Country, Country> predecessorMap =
         new HashMap<>(); // Map to store the predecessors of each country in the path
-
+    // Check if the source and destination countries are the same
+    if (sourceCountry.equals(destinationCountry)) {
+      return new ArrayList<>();
+    }
     // Start BFS from the start country
     queue.add(sourceCountry);
     visited.add(sourceCountry);
@@ -234,7 +237,6 @@ public class MapEngine {
         }
       }
     }
-
     // Return an empty list if no path is found or the source and destination countries are the same
     return new ArrayList<>();
   }
