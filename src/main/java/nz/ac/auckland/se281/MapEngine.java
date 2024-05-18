@@ -1,11 +1,14 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 /** This class is the main entry point. */
 public class MapEngine {
@@ -155,27 +158,57 @@ public class MapEngine {
         System.out.println(invalidCountryMessage);
       }
     }
+    List<Country> path = mapTraversal(sourceCountryFound, destinationCountryFound);
+    for (Country country : path) {
+      System.out.println(country.getName() + " ");
+    }
   }
+
+  // Find the shortest path between two countries using BFS
   public List<Country> mapTraversal(Country sourceCountry, Country destinationCountry) {
-   List<Country> visited = new LinkedList<>();
-   Queue<Country> queue = new LinkedList<>();
-   queue.add(sourceCountry);
-   visited.add(sourceCountry);
+    Set<Country> visited = new HashSet<>(); // Set to keep track of visited countries
+    Queue<Country> queue = new LinkedList<>(); // Queue for BFS
+    Map<Country, Country> predecessorMap =
+        new HashMap<>(); // Map to store the predecessors of each country in the path
 
-   while (!queue.isEmpty()) {
-       Country nextCountry = queue.poll();
+    // Start BFS from the start country
+    queue.add(sourceCountry);
+    visited.add(sourceCountry);
 
-        if (nextCountry.equals(destinationCountry)) {
-            return visited;
+    // BFS loop until the queue is empty
+    while (!queue.isEmpty()) {
+      Country currentCountry = queue.poll(); // Get the current country to do BFS on
+      // If we reach the end country, reconstruct the path
+      if (currentCountry.equals(destinationCountry)) {
+        return reconstructRoute(predecessorMap, sourceCountry, destinationCountry);
+      }
+
+      // Visit all adjacent countries of the current country
+      for (Country adjacentCountry : adjCountries.get(currentCountry)) {
+        if (!visited.contains(adjacentCountry)) { // If the country is not visited
+          visited.add(adjacentCountry); // Mark the country as visited
+          predecessorMap.put(
+              adjacentCountry,
+              currentCountry); // Store the predecessor of the country which is the current country
+          queue.add(
+              adjacentCountry); // Add the country to the queue to visit its neighbors in the next
+          // iteration of the loop
         }
+      }
+    }
 
-       for (Country adjacentCountry : adjCountries.get(nextCountry)) {
-           if (!visited.contains(adjacentCountry)) {
-               visited.add(adjacentCountry);
-               queue.add(adjacentCountry);
-           }
-       }
-   }
-   return visited;
- }
+    // Return an empty list if no path is found
+    return new ArrayList<>();
+  }
+
+  // Reconstruct the path from start to end using the predecessory map
+  private List<Country> reconstructRoute(
+      Map<Country, Country> predecessorMap, Country sourceCountry, Country destinationCountry) {
+    List<Country> route = new ArrayList<>();
+    for (Country i = destinationCountry; i != null; i = predecessorMap.get(i)) {
+      route.add(i);
+    }
+    Collections.reverse(route);
+    return route;
+  }
 }
