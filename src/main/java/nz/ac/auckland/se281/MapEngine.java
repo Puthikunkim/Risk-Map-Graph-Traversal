@@ -87,7 +87,13 @@ public class MapEngine {
       String countryName = Utils.scanner.nextLine();
       countryName = Utils.capitalizeFirstLetterOfEachWord(countryName);
       try {
-        checkInput(countryName);
+        Country countryFound = checkInput(countryName);
+        String countryInfoMessage =
+            MessageCli.COUNTRY_INFO.getMessage(
+                countryFound.getName(),
+                countryFound.getContinent(),
+                String.valueOf(countryFound.getTax()));
+        System.out.println(countryInfoMessage);
         validCountry = true;
       } catch (MyCoolException e) {
         String invalidCountryMessage = MessageCli.INVALID_COUNTRY.getMessage(countryName);
@@ -102,18 +108,17 @@ public class MapEngine {
     }
   }
 
-  public void checkInput(String countryName) throws MyCoolException {
+  public Country checkInput(String countryName) throws MyCoolException {
     Country country = findCountryByName(countryName);
     if (country == null) {
       throw new MyCoolException();
     } else {
-      String countryInfoMessage =
-          MessageCli.COUNTRY_INFO.getMessage(
-              country.getName(), country.getContinent(), String.valueOf(country.getTax()));
-      System.out.println(countryInfoMessage);
+      return country;
     }
   }
 
   /** this method is invoked when the user run the command route. */
-  public void showRoute() {}
+  public void showRoute() {
+    
+  }
 }
