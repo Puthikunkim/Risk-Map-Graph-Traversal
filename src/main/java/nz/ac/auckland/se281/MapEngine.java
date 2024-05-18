@@ -135,5 +135,23 @@ public class MapEngine {
         System.out.println(invalidCountryMessage);
       }
     }
+    // Ask for name of destination country from messagecli file
+    String insertDestinationMessage = MessageCli.INSERT_DESTINATION.getMessage();
+    System.out.print(insertDestinationMessage);
+    // Read the country name from the user
+    boolean validDestinationCountry = false;
+    Country destinationCountryFound = null;
+    while (!validDestinationCountry) {
+      String destinationCountryName = Utils.scanner.nextLine();
+      destinationCountryName = Utils.capitalizeFirstLetterOfEachWord(destinationCountryName);
+      try {
+        destinationCountryFound = checkInput(destinationCountryName);
+        validDestinationCountry = true;
+      } catch (MyCoolException e) {
+        String invalidCountryMessage =
+            MessageCli.INVALID_COUNTRY.getMessage(destinationCountryName);
+        System.out.println(invalidCountryMessage);
+      }
+    }
   }
 }
