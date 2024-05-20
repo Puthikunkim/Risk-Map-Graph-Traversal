@@ -107,12 +107,6 @@ public class MapEngine {
     }
   }
 
-  public class MyCoolException extends Exception {
-    public MyCoolException() {
-      super();
-    }
-  }
-
   public Country checkInput(String countryName) throws MyCoolException {
     Country country = findCountryByName(countryName);
     if (country == null) {
