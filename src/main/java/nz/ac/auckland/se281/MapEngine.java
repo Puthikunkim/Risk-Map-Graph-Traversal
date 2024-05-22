@@ -70,7 +70,7 @@ public class MapEngine {
   }
 
   /**
-   * this method is used to find the country object given its name.
+   * This method is used to find the country object given its name.
    *
    * @param name name is the name of the country to be found.
    * @return a string that contains the country of interest.
@@ -88,7 +88,7 @@ public class MapEngine {
     adjCountries.get(country1).add(country2);
   }
 
-  /** this method is used to show the info of a country */
+  /** This method is used to show the info of a country. */
   public void showInfoCountry() {
     // Ask for name of country from messagecli file
     String insertCountryMessage = MessageCli.INSERT_COUNTRY.getMessage();
@@ -99,7 +99,8 @@ public class MapEngine {
       String countryName = Utils.scanner.nextLine();
       countryName = Utils.capitalizeFirstLetterOfEachWord(countryName);
       try {
-        Country countryFound = checkInput(countryName);
+        Country countryFound =
+            checkInput(countryName, MessageCli.INVALID_COUNTRY.getMessage(countryName));
         String countryInfoMessage =
             MessageCli.COUNTRY_INFO.getMessage(
                 countryFound.getName(),
@@ -108,8 +109,7 @@ public class MapEngine {
         System.out.println(countryInfoMessage);
         validCountry = true;
       } catch (MyCoolException e) {
-        String invalidCountryMessage = MessageCli.INVALID_COUNTRY.getMessage(countryName);
-        System.out.println(invalidCountryMessage);
+        System.out.println(e.getMessage());
       }
     }
   }
@@ -120,10 +120,10 @@ public class MapEngine {
    * @param countryName countryName is the name of the country to be found
    * @return Country object if the country is found, throws an exception otherwise
    */
-  public Country checkInput(String countryName) throws MyCoolException {
+  public Country checkInput(String countryName, String exceptionMessage) throws MyCoolException {
     Country country = findCountryByName(countryName);
     if (country == null) {
-      throw new MyCoolException();
+      throw new MyCoolException(exceptionMessage);
     } else {
       return country;
     }
@@ -140,11 +140,11 @@ public class MapEngine {
       String sourceCountryName = Utils.scanner.nextLine();
       sourceCountryName = Utils.capitalizeFirstLetterOfEachWord(sourceCountryName);
       try {
-        sourceCountryFound = checkInput(sourceCountryName);
+        sourceCountryFound =
+            checkInput(sourceCountryName, MessageCli.INVALID_COUNTRY.getMessage(sourceCountryName));
         validSourceCountry = true;
       } catch (MyCoolException e) {
-        String invalidCountryMessage = MessageCli.INVALID_COUNTRY.getMessage(sourceCountryName);
-        System.out.println(invalidCountryMessage);
+        System.out.println(e.getMessage());
       }
     }
     // Ask for name of destination country from messagecli file
@@ -157,12 +157,13 @@ public class MapEngine {
       String destinationCountryName = Utils.scanner.nextLine();
       destinationCountryName = Utils.capitalizeFirstLetterOfEachWord(destinationCountryName);
       try {
-        destinationCountryFound = checkInput(destinationCountryName);
+        destinationCountryFound =
+            checkInput(
+                destinationCountryName,
+                MessageCli.INVALID_COUNTRY.getMessage(destinationCountryName));
         validDestinationCountry = true;
       } catch (MyCoolException e) {
-        String invalidCountryMessage =
-            MessageCli.INVALID_COUNTRY.getMessage(destinationCountryName);
-        System.out.println(invalidCountryMessage);
+        System.out.println(e.getMessage());
       }
     }
 
@@ -210,7 +211,7 @@ public class MapEngine {
   }
 
   /**
-   * Method to find the shortest path between two countries using BFS
+   * Method to find the shortest path between two countries using BFS.
    *
    * @param sourceCountry sourceCountry is the country to start the route at
    * @param destinationCountry destinationCountry is the country to end the route at
