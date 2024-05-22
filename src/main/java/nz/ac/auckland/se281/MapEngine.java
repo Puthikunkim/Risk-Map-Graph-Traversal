@@ -12,7 +12,7 @@ import java.util.Set;
 
 /** This class is the main entry point. */
 public class MapEngine {
-  public Map<Country, List<Country>> adjCountries;
+  private Map<Country, List<Country>> adjCountries;
 
   public MapEngine() {
     this.adjCountries = new HashMap<>();
@@ -53,6 +53,7 @@ public class MapEngine {
   }
 
   public void printAdjacencies() {
+    //
     for (Map.Entry<Country, List<Country>> entry : adjCountries.entrySet()) {
       Country country = entry.getKey();
       List<Country> neighbors = entry.getValue();
@@ -68,6 +69,12 @@ public class MapEngine {
     adjCountries.putIfAbsent(country, new ArrayList<>());
   }
 
+  /**
+   * this method is used to find the country object given its name.
+   *
+   * @param name name is the name of the country to be found.
+   * @return a string that contains the country of interest.
+   */
   public Country findCountryByName(String name) {
     for (Country country : adjCountries.keySet()) {
       if (country.getName().equals(name)) {
@@ -81,7 +88,7 @@ public class MapEngine {
     adjCountries.get(country1).add(country2);
   }
 
-  /** this method is invoked when the user run the command info-country. */
+  /** this method is used to show the info of a country */
   public void showInfoCountry() {
     // Ask for name of country from messagecli file
     String insertCountryMessage = MessageCli.INSERT_COUNTRY.getMessage();
@@ -107,6 +114,12 @@ public class MapEngine {
     }
   }
 
+  /**
+   * this method is used to check if the country the user entered is valid.
+   *
+   * @param countryName countryName is the name of the country to be found
+   * @return Country object if the country is found, throws an exception otherwise
+   */
   public Country checkInput(String countryName) throws MyCoolException {
     Country country = findCountryByName(countryName);
     if (country == null) {
@@ -196,7 +209,13 @@ public class MapEngine {
     }
   }
 
-  // Find the shortest path between two countries using BFS
+  /**
+   * Method to find the shortest path between two countries using BFS
+   *
+   * @param sourceCountry sourceCountry is the country to start the route at
+   * @param destinationCountry destinationCountry is the country to end the route at
+   * @return List of countries in the shortest path from source to destination
+   */
   public List<Country> mapTraversal(Country sourceCountry, Country destinationCountry) {
     Set<Country> visited = new HashSet<>(); // Set to keep track of visited countries
     Queue<Country> queue = new LinkedList<>(); // Queue for BFS
