@@ -12,7 +12,6 @@ public class Country {
    * @param name Name of the country
    * @param continent Continent of the country
    * @param tax Tax rate of the country
-   * @return Country object
    */
   public Country(String name, String continent, int tax) {
     this.name = name;

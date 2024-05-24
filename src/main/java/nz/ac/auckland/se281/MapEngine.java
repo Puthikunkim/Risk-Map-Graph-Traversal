@@ -52,19 +52,6 @@ public class MapEngine {
     }
   }
 
-  public void printAdjacencies() {
-    //
-    for (Map.Entry<Country, List<Country>> entry : adjCountries.entrySet()) {
-      Country country = entry.getKey();
-      List<Country> neighbors = entry.getValue();
-      System.out.print("Country: " + country.getName() + " | Adjacencies: ");
-      for (Country neighbor : neighbors) {
-        System.out.print(neighbor.getName() + " ");
-      }
-      System.out.println();
-    }
-  }
-
   public void addCountry(Country country) {
     adjCountries.putIfAbsent(country, new ArrayList<>());
   }
