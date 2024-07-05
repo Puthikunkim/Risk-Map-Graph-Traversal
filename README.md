@@ -1,3 +1,3 @@
-# Assignment 3
+## Risk Map Traversal Program
 
-You will find instructions for this assignment on the course website.
+This project is a command-line application developed in Java for SOFTENG 281 Assignment 3. It involves manipulating data structures and implementing graph traversal methods, specifically BFS (Breadth-First Search).
